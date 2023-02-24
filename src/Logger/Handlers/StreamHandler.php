@@ -1,5 +1,8 @@
 <?php
-namespace Postclick\Logger\Handlers;
+
+declare(strict_types=1);
+
+namespace Instapage\Logger\Handlers;
 
 use Monolog\Logger;
 

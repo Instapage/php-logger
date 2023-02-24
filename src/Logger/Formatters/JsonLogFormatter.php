@@ -1,7 +1,11 @@
 <?php
-namespace Postclick\Logger\Formatters;
+
+declare(strict_types=1);
+
+namespace Instapage\Logger\Formatters;
 
 use Monolog\Formatter\JsonFormatter;
+use stdClass;
 
 class JsonLogFormatter extends JsonFormatter
 {
@@ -10,7 +14,7 @@ class JsonLogFormatter extends JsonFormatter
         $normalized = $this->normalize($record);
 
         if (isset($normalized['context']) && $normalized['context'] === []) {
-            $normalized['context'] = new \stdClass;
+            $normalized['context'] = new stdClass();
         }
 
         // Available fields here - https://github.com/Seldaek/monolog/blob/main/doc/message-structure.md

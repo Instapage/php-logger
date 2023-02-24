@@ -1,9 +1,12 @@
 <?php
-namespace Postclick\Logger\Factory;
+
+declare(strict_types=1);
+
+namespace Instapage\Logger\Factory;
 
 use Monolog\Logger;
-use Postclick\Logger\Formatters\JsonLogFormatter;
-use Postclick\Logger\Handlers\StreamHandler;
+use Instapage\Logger\Formatters\JsonLogFormatter;
+use Instapage\Logger\Handlers\StreamHandler;
 use Psr\Log\LoggerInterface;
 
 class LoggerFactory

@@ -1,41 +1,19 @@
-[![Coverage](https://sonarqube-postclick.instamanagement.club/api/project_badges/measure?project=php-logger\&metric=coverage)](https://sonarqube-postclick.instamanagement.club/dashboard?id=php-logger)
-[![Maintainability Rating](https://sonarqube-postclick.instamanagement.club/api/project_badges/measure?project=php-logger\&metric=sqale_rating)](https://sonarqube-postclick.instamanagement.club/dashboard?id=php-logger)
-[![Security Rating](https://sonarqube-postclick.instamanagement.club/api/project_badges/measure?project=php-logger\&metric=security_rating)](https://sonarqube-postclick.instamanagement.club/dashboard?id=php-logger)
-[![Vulnerabilities](https://sonarqube-postclick.instamanagement.club/api/project_badges/measure?project=php-logger\&metric=vulnerabilities)](https://sonarqube-postclick.instamanagement.club/dashboard?id=php-logger)
-
-# @postclick/php-logger - PHP logger & metrics
+# instapage/php-logger - PHP logger & metrics
 
 A library for standardized logs & metric format, based on [`monolog/monolog`](https://packagist.org/packages/monolog/monolog).
 
-## Table of contents
-
-\[\[*TOC*]]
-
 ## Installation
 
-Add new repository in `composer.json` (`repositories` key):
+Add this to `require` section:
 
 ```json
-"php-logger": {
-  "name": "postclick/php-logger",
-  "type": "path",
-  "url": "/tmp/local-composer-packages/php-logger",
-  "options": {
-    "symlink": false,
-    "versions": {
-      "postclick/php-logger": "1.0.0"
-    }
-  }
-}
+"instapage/php-logger": "1.0.0"
 ```
 
-Then add this to `require` section:
+Alternatively, you can type `composer require instapage/php-logger:1.0.0`.
 
-```json
-"postclick/php-logger": "1.0.0"
-```
+## Examples
 
-Alternatively, you can type `composer require postclick/php-logger:1.0.0`.
 Then add following code in your application:
 
 ```php
@@ -43,16 +21,16 @@ Then add following code in your application:
 
 declare(strict_types=1);
 
-use Postclick\Logger\Factory\LoggerFactory;
-use Postclick\Metrics\Factory\MetricCollectorFactory;
+use Instapage\Logger\Factory\LoggerFactory;
+use Instapage\Metrics\Factory\MetricCollectorFactory;
 use Monolog\Logger;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 // Preferably put these two on DI
 $logger = (new LoggerFactory())->create(
-  'my-service',
-  Logger::DEBUG
+    'my-service',
+    Logger::DEBUG
 );
 
 $metric = (new MetricCollectorFactory())->create(
@@ -60,51 +38,65 @@ $metric = (new MetricCollectorFactory())->create(
 );
 
 // Simple one-liner
-$logger->info('User created', ['iID' => 123, 'sRole' => 'admin']);
+$logger->info('User created', ['id' => 123, 'role' => 'admin']);
+$metric->collect('Queue size', 42);
 $metric->collect('Memory used by worker (MB)', 123.50);
 ```
 
 ## Output
 
-Each is the single line. Multi-line here is only to improve readability.
+Each log is a single line. Multi-line here is only to improve readability.
+Notice how field names change for metric depending on the type of value provided.
 
 ```json
 {
-  "sChannel": "my-service",
-  "sType": "log",
-  "iLevel": 200,
-  "sLevelName": "INFO",
-  "sMessage": "User created",
-  "oContext": {
-    "iID": 123,
-    "sRole": "admin"
-  }
+    "sChannel":"my-service",
+    "sType":"log",
+    "sMessage":"User created",
+    "iLevel":200,
+    "sLevelName":"INFO",
+    "oContext": {
+        "id": 123,
+        "role": "admin"
+    }
 }
 ```
-
 ```json
 {
-  "sChannel": "my-service.worker",
-  "sType": "metric",
-  "sMetricName": "Memory used by worker (MB)",
-  "fValue": 123.50
-}    
+    "sChannel": "my-service.worker",
+    "sType": "metric",
+    "sMetricName": "Queue size",
+    "iValue": 42
+}
+```
+```json
+{
+    "sChannel": "my-service.worker",
+    "sType": "metric",
+    "sMetricName": "Memory used by worker (MB)",
+    "fValue": 123.5
+}
 ```
 
 ## How to run unit tests ?
 
 ```bash
-# from monorepo root directory
- npm run --prefix packages/php-logger test:unit:text
+composer test
 ```
-
-Directory with HTML coverage report will be under `~/php-logger-coverage` on your local pc.
 
 ## How to run linter ?
 
 ```bash
-# from monorepo root directory
-npm run --prefix packages/php-logger lint
+composer lint
 # to automatically fix some of the most common errors
-npm run --prefix packages/php-logger lint:fix
+composer lint:fix
 ```
+
+## Docker fan ?
+You can also use following docker commands to try the package out:
+ - `docker compose -f docker/docker-compose.yml up lint`
+ - `docker compose -f docker/docker-compose.yml up lint:fix`
+ - `docker compose -f docker/docker-compose.yml up test`
+ - `docker compose -f docker/docker-compose.yml up example`
+
+ `docker compose -f docker/docker-compose.yml down` will clean up nicely afterwards.

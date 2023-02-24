@@ -1,7 +1,8 @@
 <?php
+
 namespace Tests\Logger\Factory;
 
-use Postclick\Logger\Factory\LoggerFactory;
+use Instapage\Logger\Factory\LoggerFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

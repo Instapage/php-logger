@@ -1,11 +1,14 @@
 <?php
-namespace Postclick\Metrics\Factory;
+
+declare(strict_types=1);
+
+namespace Instapage\Metrics\Factory;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Postclick\Metrics\Formatters\JsonMetricFormatter;
-use Postclick\Metrics\MetricCollector;
-use Postclick\Metrics\MetricCollectorInterface;
+use Instapage\Metrics\Formatters\JsonMetricFormatter;
+use Instapage\Metrics\MetricCollector;
+use Instapage\Metrics\MetricCollectorInterface;
 
 class MetricCollectorFactory
 {
