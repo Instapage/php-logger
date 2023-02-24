@@ -1,5 +1,8 @@
 <?php
-namespace Postclick\Metrics;
+
+declare(strict_types=1);
+
+namespace Instapage\Metrics;
 
 interface MetricCollectorInterface
 {

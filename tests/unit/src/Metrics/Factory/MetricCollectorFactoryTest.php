@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Tests\Metrics\Factory;
 
-use Postclick\Metrics\Factory\MetricCollectorFactory;
+use Instapage\Metrics\Factory\MetricCollectorFactory;
 use PHPUnit\Framework\TestCase;
-use Postclick\Metrics\MetricCollectorInterface;
+use Instapage\Metrics\MetricCollectorInterface;
 
 class MetricCollectorFactoryTest extends TestCase
 {

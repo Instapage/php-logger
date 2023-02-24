@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tests\Logger\Formatters;
 
 use PHPUnit\Framework\TestCase;
-use Postclick\Logger\Formatters\JsonLogFormatter;
+use Instapage\Logger\Formatters\JsonLogFormatter;
+use stdClass;
 
 class JsonLogFormatterTest extends TestCase
 {
@@ -16,7 +19,7 @@ class JsonLogFormatterTest extends TestCase
             ],
             'log with empty context' => [
                 ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO' ,'context' => []],
-                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => new \stdClass]) . "\n"
+                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => new stdClass()]) . "\n"
             ]
         ];
     }

@@ -1,6 +1,8 @@
 <?php
+
 declare(strict_types=1);
-namespace Postclick\Metrics\Formatters;
+
+namespace Instapage\Metrics\Formatters;
 
 use Monolog\Formatter\JsonFormatter;
 

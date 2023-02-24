@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tests\Metrics;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Postclick\Metrics\MetricCollector;
-use Postclick\Metrics\MetricCollectorInterface;
+use Instapage\Metrics\MetricCollector;
+use Instapage\Metrics\MetricCollectorInterface;
 use Psr\Log\LoggerInterface;
 
 class MetricCollectorTest extends TestCase

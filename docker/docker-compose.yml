@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+    lint:
+        image: php-logger-utils
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        working_dir: /var/www/html
+        command: [ "sh", "-c", "composer install && composer lint" ]
+        volumes:
+            - ../:/var/www/html
+    lint-fix:
+        image: php-logger-utils
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        working_dir: /var/www/html
+        command: [ "sh", "-c", "composer install && composer lint:fix" ]
+        volumes:
+            - ../:/var/www/html
+    test:
+        image: php-logger-utils
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        working_dir: /var/www/html
+        command: [ "sh", "-c", "composer install && composer test" ]
+        volumes:
+            - ../:/var/www/html
+    example:
+        image: php-logger-utils
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        working_dir: /var/www/html
+        command: [ "sh", "-c", "composer install && composer example" ]
+        volumes:
+            - ../:/var/www/html

@@ -1,11 +1,15 @@
 <?php
-namespace Postclick\Metrics;
+
+declare(strict_types=1);
+
+namespace Instapage\Metrics;
 
 use Psr\Log\LoggerInterface;
 
 class MetricCollector implements MetricCollectorInterface
 {
-    private LoggerInterface $logger;
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct(
         LoggerInterface $logger

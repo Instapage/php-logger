@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tests\Metrics\Formatters;
 
 use PHPUnit\Framework\TestCase;
-use Postclick\Metrics\Formatters\JsonMetricFormatter;
+use Instapage\Metrics\Formatters\JsonMetricFormatter;
+use stdClass;
 
 class JsonMetricFormatterTest extends TestCase
 {
@@ -49,7 +52,7 @@ class JsonMetricFormatterTest extends TestCase
             'int' => [123, 'iValue'],
             'float' => [1.23, 'fValue'],
             'array' => [[], 'aValue'],
-            'object' => [new \stdClass(), 'oValue'],
+            'object' => [new stdClass(), 'oValue'],
             'boolean' => [true, 'bValue'],
             'null' => [null, 'nValue']
         ];
