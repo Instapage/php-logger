@@ -22,3 +22,22 @@ $metric = (new MetricCollectorFactory())->create(
 $logger->info('User created', ['id' => 123, 'role' => 'admin']);
 $metric->collect('Queue size', 42);
 $metric->collect('Memory used by worker (MB)', 123.50);
+
+// More complex log
+$logger->info(
+    'User created',
+    [
+        'id' => 1,
+        'name' => 'John',
+        'admin' => false,
+        'permissions' => [
+            'read' => true,
+            'write' => false,
+            'customReadSizeLimit' => 4
+        ],
+        'morePermissions' => (object) [
+            'connect' => 'yes',
+            'disconnect' => 'no'
+        ],
+    ]
+);

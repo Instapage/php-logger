@@ -13,13 +13,17 @@ class JsonLogFormatterTest extends TestCase
     public function dataProvider(): array
     {
         return [
+            'log with empty context' => [
+                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO', 'context' => []],
+                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => new stdClass()]) . "\n"
+            ],
             'simple log' => [
-                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO' ,'context' => ['iLeadID' => 123]],
+                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO', 'context' => ['leadID' => 123]],
                 json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => ['iLeadID' => 123]]) . "\n"
             ],
-            'log with empty context' => [
-                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO' ,'context' => []],
-                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => new stdClass()]) . "\n"
+            'log with complex nested context' => [
+                ['channel' => 'app', 'message' => 'User created', 'level' => 100, 'level_name' => 'DEBUG', 'context' => ['id' => 1, 'name' => 'John', 'admin' => false, 'permissions' => ['read' => true, 'write' => false, 'customReadSizeLimit' => 4], 'morePermissions' => (object) ['connect' => 'yes', 'disconnect' => 'no']]],
+                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'User created', 'iLevel' => 100, 'sLevelName' => 'DEBUG', 'oContext' => ['iId' => 1, 'sName' => 'John', 'bAdmin' => false, 'aPermissions' => ['bRead' => true, 'bWrite' => false, 'iCustomReadSizeLimit' => 4], 'oMorePermissions' => ['sConnect' => 'yes', 'sDisconnect' => 'no']]]) . "\n"
             ]
         ];
     }

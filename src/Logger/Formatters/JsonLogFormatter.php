@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Instapage\Logger\Formatters;
 
+use Instapage\Shared\Formatters\JsonSharedFormatter;
 use Monolog\Formatter\JsonFormatter;
 use stdClass;
 
 class JsonLogFormatter extends JsonFormatter
 {
+    use JsonSharedFormatter;
+
     public function format(array $record): string
     {
         $normalized = $this->normalize($record);
@@ -17,17 +20,34 @@ class JsonLogFormatter extends JsonFormatter
             $normalized['context'] = new stdClass();
         }
 
-        // Available fields here - https://github.com/Seldaek/monolog/blob/main/doc/message-structure.md
-        // We can change keys below
+        // Available fields:
+        // https://github.com/Seldaek/monolog/blob/main/doc/message-structure.md
         $data = [
-            'sChannel' => (string) $normalized['channel'], // string
-            'sType' => 'log', // string
-            'sMessage' => (string) $normalized['message'], // string
-            'iLevel' => (int) $normalized['level'], // int
-            'sLevelName' => (string) $normalized['level_name'], // string
-            'oContext' => (object) $normalized['context'], // object
+            'sChannel' => (string) $normalized['channel'],
+            'sType' => 'log',
+            'sMessage' => (string) $normalized['message'],
+            'iLevel' => (int) $normalized['level'],
+            'sLevelName' => (string) $normalized['level_name'],
+            'oContext' => $this->getNestedField((array) $normalized['context']),
         ];
 
         return $this->toJson($data, true) . ($this->appendNewline ? "\n" : '');
+    }
+
+    protected function getNestedField(array $context = []): object
+    {
+        $formattedContext = [];
+        foreach ($context as $fieldName => $fieldValue) {
+            $formattedFieldName = (is_string($fieldName)) ? ucfirst($fieldName) : $fieldName;
+            $formattedFieldName = $this->getFieldName($context[$fieldName], $formattedFieldName);
+            if (is_object($fieldValue)) {
+                $fieldValue = (array) $fieldValue;
+            }
+            $formattedContext[$formattedFieldName] =
+                (is_array($fieldValue)) ?
+                $formattedContext[$formattedFieldName] = $this->getNestedField($fieldValue) :
+                $formattedContext[$formattedFieldName] = $fieldValue;
+        }
+        return (object)$formattedContext;
     }
 }
