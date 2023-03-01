@@ -56,8 +56,8 @@ Notice how field names change for metric depending on the type of value provided
     "iLevel":200,
     "sLevelName":"INFO",
     "oContext": {
-        "id": 123,
-        "role": "admin"
+        "iId":123,
+        "sRole":"admin"
     }
 }
 ```
