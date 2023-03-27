@@ -6,7 +6,12 @@ namespace Instapage\Shared\Formatters;
 
 trait JsonSharedFormatter
 {
-    public function getFieldName($fieldValue, string $fieldNameSuffix = 'Value'): string
+    /**
+     * @param $fieldValue
+     * @param string|int $fieldNameSuffix
+     * @return string
+     */
+    public function getFieldName($fieldValue, $fieldNameSuffix = 'Value'): string
     {
         // https://en.wikipedia.org/wiki/JSON#Data_types
         // https://www.php.net/manual/en/function.gettype.php

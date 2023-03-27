@@ -26,6 +26,6 @@ class JsonMetricFormatter extends JsonFormatter
         $fieldName = $this->getFieldName($normalized['context']['value']);
         $data[$fieldName] = $normalized['context']['value'];
 
-        return $this->toJson($data, true) . ($this->appendNewline ? "\n" : '');
+        return $this->toJson($data, true) . ($this->appendNewline ? PHP_EOL : '');
     }
 }

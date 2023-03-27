@@ -31,7 +31,7 @@ class JsonLogFormatter extends JsonFormatter
             'oContext' => $this->getNestedField((array) $normalized['context']),
         ];
 
-        return $this->toJson($data, true) . ($this->appendNewline ? "\n" : '');
+        return $this->toJson($data, true) . ($this->appendNewline ? PHP_EOL : '');
     }
 
     protected function getNestedField(array $context = []): object
@@ -44,10 +44,10 @@ class JsonLogFormatter extends JsonFormatter
                 $fieldValue = (array) $fieldValue;
             }
             $formattedContext[$formattedFieldName] =
-                (is_array($fieldValue)) ?
-                $formattedContext[$formattedFieldName] = $this->getNestedField($fieldValue) :
-                $formattedContext[$formattedFieldName] = $fieldValue;
+                is_array($fieldValue) ?
+                $this->getNestedField($fieldValue) :
+                $fieldValue;
         }
-        return (object)$formattedContext;
+        return (object) $formattedContext;
     }
 }
