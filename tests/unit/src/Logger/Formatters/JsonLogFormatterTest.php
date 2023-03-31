@@ -14,17 +14,129 @@ class JsonLogFormatterTest extends TestCase
     {
         return [
             'log with empty context' => [
-                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO', 'context' => []],
-                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => new stdClass()]) . "\n"
+                [
+                    'channel' => 'app',
+                    'message' => 'lead submitted',
+                    'level' => 200,
+                    'level_name' => 'INFO',
+                    'context' => []
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'log',
+                    'sMessage' => 'lead submitted',
+                    'iLevel' => 200,
+                    'sLevelName' => 'INFO',
+                    'oContext' => new stdClass()
+                ]) . PHP_EOL
             ],
             'simple log' => [
-                ['channel' => 'app', 'message' => 'lead submitted', 'level' => 200, 'level_name' => 'INFO', 'context' => ['leadID' => 123]],
-                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'lead submitted', 'iLevel' => 200, 'sLevelName' => 'INFO', 'oContext' => ['iLeadID' => 123]]) . "\n"
+                [
+                    'channel' => 'app',
+                    'message' => 'lead submitted',
+                    'level' => 200,
+                    'level_name' => 'INFO',
+                    'context' => [
+                        'leadID' => 123,
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'log',
+                    'sMessage' => 'lead submitted',
+                    'iLevel' => 200,
+                    'sLevelName' => 'INFO',
+                    'oContext' => [
+                        'iLeadID' => 123,
+                    ],
+                ]) . PHP_EOL,
             ],
-            'log with complex nested context' => [
-                ['channel' => 'app', 'message' => 'User created', 'level' => 100, 'level_name' => 'DEBUG', 'context' => ['id' => 1, 'name' => 'John', 'admin' => false, 'permissions' => ['read' => true, 'write' => false, 'customReadSizeLimit' => 4], 'morePermissions' => (object) ['connect' => 'yes', 'disconnect' => 'no']]],
-                json_encode(['sChannel' => 'app', 'sType' => 'log', 'sMessage' => 'User created', 'iLevel' => 100, 'sLevelName' => 'DEBUG', 'oContext' => ['iId' => 1, 'sName' => 'John', 'bAdmin' => false, 'aPermissions' => ['bRead' => true, 'bWrite' => false, 'iCustomReadSizeLimit' => 4], 'oMorePermissions' => ['sConnect' => 'yes', 'sDisconnect' => 'no']]]) . "\n"
-            ]
+            'log with complex nested context #1' => [
+                [
+                    'channel' => 'app',
+                    'message' => 'User created',
+                    'level' => 100,
+                    'level_name' => 'DEBUG',
+                    'context' => [
+                        'id' => 1,
+                        'name' => 'John',
+                        'admin' => false,
+                        'permissions' => [
+                            'read' => true,
+                            'write' => false,
+                            'customReadSizeLimit' => 4,
+                        ],
+                        'morePermissions' => (object) [
+                            'connect' => 'yes',
+                            'disconnect' => 'no',
+                        ],
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'log',
+                    'sMessage' => 'User created',
+                    'iLevel' => 100,
+                    'sLevelName' => 'DEBUG',
+                    'oContext' => [
+                        'iId' => 1,
+                        'sName' => 'John',
+                        'bAdmin' => false,
+                        'aPermissions' => [
+                            'bRead' => true,
+                            'bWrite' => false,
+                            'iCustomReadSizeLimit' => 4,
+                        ],
+                        'oMorePermissions' => [
+                            'sConnect' => 'yes',
+                            'sDisconnect' => 'no',
+                        ],
+                    ],
+                ]) . PHP_EOL,
+            ],
+            'log with complex nested context #2' => [
+                [
+                    'channel' => 'app',
+                    'message' => 'User permissions',
+                    'level' => 100,
+                    'level_name' => 'DEBUG',
+                    'context' => [
+                        'read' => [
+                            0 => 'this',
+                            1 => 'that',
+                        ],
+                        'write' => [
+                            'this-too',
+                            'also-that',
+                        ],
+                        'ids' => [
+                            42,
+                            69,
+                        ],
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'log',
+                    'sMessage' => 'User permissions',
+                    'iLevel' => 100,
+                    'sLevelName' => 'DEBUG',
+                    'oContext' => [
+                        'aRead' => [
+                            's0' => 'this',
+                            's1' => 'that',
+                        ],
+                        "aWrite" => [
+                            's0' => 'this-too',
+                            's1' => 'also-that',
+                        ],
+                        "aIds" => [
+                            'i0' => 42,
+                            'i1' => 69,
+                        ],
+                    ],
+                ]) . PHP_EOL,
+            ],
         ];
     }
 

@@ -14,21 +14,65 @@ class JsonMetricFormatterTest extends TestCase
     {
         return [
             'string based metric' => [
-                ['channel' => 'app', 'context' => ['metricName' => 'string metric', 'value' => 'abc']],
-                json_encode(['sChannel' => 'app', 'sType' => 'metric', 'sMetricName' => 'string metric', 'sValue' => 'abc']) . "\n"
+                [
+                    'channel' => 'app',
+                    'context' => [
+                        'metricName' => 'string metric',
+                        'value' => 'abc',
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'metric',
+                    'sMetricName' => 'string metric',
+                    'sValue' => 'abc',
+                ]) . PHP_EOL,
             ],
             'int based metric' => [
-                ['channel' => 'app', 'context' => ['metricName' => 'int metric', 'value' => 123]],
-                json_encode(['sChannel' => 'app', 'sType' => 'metric', 'sMetricName' => 'int metric', 'iValue' => 123]) . "\n"
+                [
+                    'channel' => 'app',
+                    'context' => [
+                        'metricName' => 'int metric',
+                        'value' => 123,
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'metric',
+                    'sMetricName' => 'int metric',
+                    'iValue' => 123,
+                ]) . PHP_EOL,
             ],
             'float based metric' => [
-                ['channel' => 'app', 'context' => ['metricName' => 'float metric', 'value' => 1.23]],
-                json_encode(['sChannel' => 'app', 'sType' => 'metric', 'sMetricName' => 'float metric', 'fValue' => 1.23]) . "\n"
+                [
+                    'channel' => 'app',
+                    'context' => [
+                        'metricName' => 'float metric',
+                        'value' => 1.23,
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'metric',
+                    'sMetricName' => 'float metric',
+                    'fValue' => 1.23,
+                ]) . PHP_EOL,
             ],
             'bool based metric' => [
-                ['channel' => 'app', 'context' => ['metricName' => 'bool metric', 'value' => true]],
-                json_encode(['sChannel' => 'app', 'sType' => 'metric', 'sMetricName' => 'bool metric', 'bValue' => true]) . "\n"
-            ]
+                [
+                    'channel' => 'app',
+                    'context' => [
+                        'metricName' => 'bool metric',
+                        'value' => true,
+                    ],
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'metric',
+                    'sMetricName' => 'bool metric',
+                    'bValue' => true,
+                ]) . PHP_EOL,
+            ],
         ];
     }
 

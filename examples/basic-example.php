@@ -35,7 +35,11 @@ $logger->info(
             'write' => false,
             'customReadSizeLimit' => 4
         ],
-        'morePermissions' => (object) [
+        'morePermissions' => [
+            'read',
+            'write'
+        ],
+        'evenMorePermissions' => (object) [
             'connect' => 'yes',
             'disconnect' => 'no'
         ],
