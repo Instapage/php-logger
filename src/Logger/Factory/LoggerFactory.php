@@ -14,6 +14,7 @@ class LoggerFactory
     public function create($channel, $level = Logger::INFO): LoggerInterface
     {
         $formatter = new JsonLogFormatter();
+        $formatter->includeStacktraces(true);
 
         $handler = new StreamHandler($level);
         $handler->setFormatter($formatter);
