@@ -23,6 +23,7 @@ class LoggerFactory
 
         $logger->pushProcessor(static function ($record) use ($requestId) {
             $record->extra['ipRequestId'] = $requestId;
+            return $record;
         });
 
         return $logger;
