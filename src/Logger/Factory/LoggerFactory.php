@@ -21,8 +21,8 @@ class LoggerFactory
         $logger = new Logger($channel);
         $logger->pushHandler($handler);
 
-        $logger->pushProcessor(static function ($record) use ($requestId) {
-            $record->extra['ipRequestId'] = $requestId;
+        $logger->pushProcessor(static function (array $record) use ($requestId) {
+            $record['extra']['ipRequestId'] = $requestId;
             return $record;
         });
 
