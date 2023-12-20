@@ -19,7 +19,7 @@ class JsonLogFormatterTest extends TestCase
                     'message' => 'lead submitted',
                     'level' => 200,
                     'level_name' => 'INFO',
-                    'context' => []
+                    'context' => [],
                 ],
                 json_encode([
                     'sChannel' => 'app',
@@ -27,7 +27,7 @@ class JsonLogFormatterTest extends TestCase
                     'sMessage' => 'lead submitted',
                     'iLevel' => 200,
                     'sLevelName' => 'INFO',
-                    'oContext' => new stdClass()
+                    'oContext' => new stdClass(),
                 ]) . PHP_EOL
             ],
             'simple log' => [
@@ -135,6 +135,53 @@ class JsonLogFormatterTest extends TestCase
                             'i1' => 69,
                         ],
                     ],
+                ]) . PHP_EOL,
+            ],
+            'log with complex nested context and requestId in extras #2' => [
+                [
+                    'channel' => 'app',
+                    'message' => 'User permissions',
+                    'level' => 100,
+                    'level_name' => 'DEBUG',
+                    'context' => [
+                        'read' => [
+                            0 => 'this',
+                            1 => 'that',
+                        ],
+                        'write' => [
+                            'this-too',
+                            'also-that',
+                        ],
+                        'ids' => [
+                            42,
+                            69,
+                        ],
+                    ],
+                    'extra' => [
+                        'ipRequestId' => 'c91d4aa1-bf6c-4151-88ac-3ee0af8bbe28',
+                    ]
+                ],
+                json_encode([
+                    'sChannel' => 'app',
+                    'sType' => 'log',
+                    'sMessage' => 'User permissions',
+                    'iLevel' => 100,
+                    'sLevelName' => 'DEBUG',
+                    'oContext' => [
+                        'aRead' => [
+                            's0' => 'this',
+                            's1' => 'that',
+                        ],
+                        "aWrite" => [
+                            's0' => 'this-too',
+                            's1' => 'also-that',
+                        ],
+                        "aIds" => [
+                            'i0' => 42,
+                            'i1' => 69,
+                        ],
+                    ],
+                    'sIpRequestId' => 'c91d4aa1-bf6c-4151-88ac-3ee0af8bbe28',
                 ]) . PHP_EOL,
             ],
         ];
