@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 
 class LoggerFactory
 {
-    public function create($channel, $level = Logger::INFO): LoggerInterface
+    public function create($channel, $level = Logger::INFO, ?string $requestId = null): LoggerInterface
     {
         $formatter = new JsonLogFormatter();
 
@@ -20,6 +20,11 @@ class LoggerFactory
 
         $logger = new Logger($channel);
         $logger->pushHandler($handler);
+
+        $logger->pushProcessor(static function (array $record) use ($requestId) {
+            $record['extra']['ipRequestId'] = $requestId;
+            return $record;
+        });
 
         return $logger;
     }
