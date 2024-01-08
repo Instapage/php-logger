@@ -10,7 +10,7 @@
         "example": "php examples/basic-example.php"
     },
     "require": {
-        "php": "^7.3",
+        "php": ">=7.3",
         "ext-json": "*",
         "psr/log": "^1",
         "monolog/monolog": "^2"
