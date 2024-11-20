@@ -7,10 +7,10 @@ A library for standardized logs & metric format, based on [`monolog/monolog`](ht
 Add this to `require` section:
 
 ```json
-"instapage/php-logger": "1.4.0"
+"instapage/php-logger": "1.5.1"
 ```
 
-Alternatively, you can type `composer require instapage/php-logger:1.4.0`.
+Alternatively, you can type `composer require instapage/php-logger:1.5.1`.
 
 ## Examples
 
