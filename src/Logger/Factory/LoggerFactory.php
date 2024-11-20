@@ -13,6 +13,11 @@ class LoggerFactory
 {
     public function create($channel, $level = Logger::INFO, ?string $requestId = null): LoggerInterface
     {
+        return $this->createWithExtras($channel, $level, ['ipRequestId' => $requestId]);
+    }
+
+    public function createWithExtras($channel, $level = Logger::INFO, array $extras = []): LoggerInterface
+    {
         $formatter = new JsonLogFormatter();
 
         $handler = new StreamHandler($level);
@@ -21,8 +26,13 @@ class LoggerFactory
         $logger = new Logger($channel);
         $logger->pushHandler($handler);
 
-        $logger->pushProcessor(static function (array $record) use ($requestId) {
-            $record['extra']['ipRequestId'] = $requestId;
+        $logger->pushProcessor(static function (array $record) use ($extras) {
+            if (is_array($record['extra'])) {
+                $record['extra'] = array_merge($record['extra'], $extras);
+            } else {
+                $record['extra'] = $extras;
+            }
+
             return $record;
         });
 
