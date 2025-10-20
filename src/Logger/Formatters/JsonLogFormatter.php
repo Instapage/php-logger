@@ -31,8 +31,12 @@ class JsonLogFormatter extends JsonFormatter
             'oContext' => $this->getNestedField((array) $normalized['context']),
         ];
 
-        foreach ($normalized['extra'] as $key => $value) {
-            $data["s{$key}"] = (string) $value;
+        if (isset($normalized['extra'])) {
+            foreach ($normalized['extra'] as $fieldName => $fieldValue) {
+                $formattedFieldName = (is_string($fieldName)) ? ucfirst($fieldName) : $fieldName;
+                $formattedFieldName = $this->getFieldName($fieldValue, $formattedFieldName);
+                $data[$formattedFieldName] = $fieldValue;
+            }
         }
 
         return $this->toJson($data, true) . ($this->appendNewline ? PHP_EOL : '');
