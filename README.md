@@ -1,5 +1,7 @@
 # instapage/php-logger - PHP logger & metrics
 
+[![CI](https://github.com/Instapage/php-logger/actions/workflows/ci.yml/badge.svg)](https://github.com/Instapage/php-logger/actions/workflows/ci.yml)
+
 A library for standardized logs & metric format, based on [`monolog/monolog`](https://packagist.org/packages/monolog/monolog).
 
 ## Installation

@@ -1,0 +1,50 @@
+name: CI
+'on':
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  build:
+    name: Build, lint and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.3', '7.4', '8.0', '8.1', '8.2']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: json
+          coverage: xdebug
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: ./vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+      - name: Check coding standard
+        run: composer run lint
+      - name: Run test suites
+        run: XDEBUG_MODE=coverage composer run test -- --coverage-html code-coverage-php-html-${{ matrix.php-versions }}
+      - name: Upload code coverage report to GH
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-php-html-${{ matrix.php-versions }}
+          path: ./code-coverage-php-html-${{ matrix.php-versions }}
+          retention-days: 7
